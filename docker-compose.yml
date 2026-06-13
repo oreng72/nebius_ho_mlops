@@ -159,8 +159,17 @@ services:
       <<: *langfuse-env
       NEXTAUTH_URL: http://localhost:3001
       NEXTAUTH_SECRET: course-nextauth-not-for-prod
+      # Headless init: provision org/project/keys/user on startup so no manual
+      # signup is needed. Log into the UI with the email/password below.
+      LANGFUSE_INIT_ORG_ID: course-org
       LANGFUSE_INIT_ORG_NAME: Course
+      LANGFUSE_INIT_PROJECT_ID: course-project
       LANGFUSE_INIT_PROJECT_NAME: Default
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: pk-lf-course-public
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: sk-lf-course-secret
+      LANGFUSE_INIT_USER_EMAIL: admin@course.local
+      LANGFUSE_INIT_USER_NAME: Admin
+      LANGFUSE_INIT_USER_PASSWORD: course-admin-pw
 
 volumes:
   prometheus-data:
