@@ -42,7 +42,7 @@ echo "-- manual sanity query -> screenshot screenshots/vllm_manual_query.png --"
 curl -s http://localhost:8000/v1/chat/completions -H "Content-Type: application/json" -d '{
   "model":"Qwen/Qwen3-30B-A3B-Instruct-2507",
   "messages":[{"role":"user","content":"Write one SQLite query that lists the 5 largest tables by row count."}],
-  "max_tokens":256,"temperature":0}' | python -c "import sys,json;print(json.load(sys.stdin)['choices'][0]['message']['content'])"
+  "max_tokens":256,"temperature":0}' | uv run python -c "import sys,json;print(json.load(sys.stdin)['choices'][0]['message']['content'])"
 
 # --- start the agent server -------------------------------------------------------
 echo "== starting agent server =="

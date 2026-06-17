@@ -2,10 +2,18 @@
 name = "mlops-assignment"
 version = "0.1.0"
 description = "MLOps home assignment: LLM inference + observability"
-requires-python = ">=3.11"
+# Upper bound: torch (a vLLM dep) ships no cp314 wheel as of mid-2026, and uv
+# otherwise defaults to the newest CPython. Pin the interpreter range here so a
+# fresh `uv sync` resolves to 3.11-3.13 without needing a committed .python-version.
+requires-python = ">=3.11,<3.14"
 dependencies = [
     # Serving
     "vllm>=0.9.0,<0.11",
+    # transformers 5.x breaks vLLM 0.10.x tokenizer load (Qwen2Tokenizer
+    # all_special_tokens_extended). Hold below 5 until vLLM catches up.
+    "transformers>=4.55,<5",
+    # start_vllm.sh sets HF_HUB_ENABLE_HF_TRANSFER=1; the accelerator must be present.
+    "hf_transfer>=0.1.6",
     # Agent (major-version bounded; uv.lock pins exactly)
     "langgraph>=1.0,<2.0",
     "langchain>=1.0,<2.0",
